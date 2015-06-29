@@ -29,9 +29,6 @@ def trade_site(stock_code):
 
 
 
-
-
-
 site = trade_site("300208")
 
 trade_details_get(site)
