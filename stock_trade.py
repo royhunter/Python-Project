@@ -8,7 +8,12 @@ import json
 
 
 
-end_time_slot = {'09':['35', '40', '45', '50', '55'], '10':['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']}
+end_time_slot = {'09':['35', '40', '45', '50', '55'], \
+				'10':['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'], \
+				'11':['00', '05', '10', '15', '20', '25'], \
+				'13':['05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'], \
+				'14':['05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']
+				}
 
 
 def trade_details_get(site):
@@ -22,14 +27,14 @@ def trade_details_get(site):
 
 
 def trade_site(stock_code):
-	site = "http://quotes.money.163.com/service/zhubi_ajax.html?symbol="+stock_code + "&end=16%3A00%3A00"
+	site = "http://quotes.money.163.com/service/zhubi_ajax.html?symbol="+stock_code + "&end=09%3A35%3A00"
 	print site
 	return site
 
 
 
 
-site = trade_site("300208")
+site = trade_site("600704")
 
 trade_details_get(site)
 
