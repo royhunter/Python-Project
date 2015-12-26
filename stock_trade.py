@@ -6,7 +6,7 @@ create by royluo @ 2015.06.29
 import urllib2
 import json
 import sqlite3
-import os
+import os, sys
 
 time_key = ['09', '10', '11', '13', '14']
 
@@ -28,7 +28,8 @@ def tradeDetailsGet(site):
 	html = urllib2.urlopen(site).read()
 
 	stock_trade = json.loads(html)
-	print_msg('begin: ' + stock_trade['begin'] + ',' + 'end: ' + stock_trade['end'])
+	#print_msg('begin: ' + stock_trade['begin'] + ',' + 'end: ' + stock_trade['end'])
+	sys.stdout.write(".")
 	return stock_trade['zhubi_list']
 	
 
@@ -66,15 +67,17 @@ def dbItemInsert(zhubi_list, db_conn, db_table_name):
 
 
 def db_close(name):
-	name.close() 	
+	name.close()
 
 
 def tradeItemStore(stock_code, db_connect, db_table_name):
+	print_msg("start load data...")
 	for k in time_key:
 		for v in time_map[k]:
 			site = tradeSiteByCode(stock_code, k, v)
 			zhubi_list = tradeDetailsGet(site)
 			dbItemInsert(zhubi_list, db_connect, db_table_name)
+	print_msg("load data ok!")
 
 
 def tradeDataStore(stock_code):
@@ -102,4 +105,4 @@ def tradeInfoQuery(stock_code):
 		print "time: %s, price %f, volume %s" %(row[0], row[1], row[2])
 
 
-tradeInfoQuery(stock_code)
+#tradeInfoQuery(stock_code)
