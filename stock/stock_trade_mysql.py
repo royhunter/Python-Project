@@ -14,33 +14,33 @@ time_key = ['09', '10', '11', '13', '14', '15']
 time_map = {'09':['35', '40', '45', '50', '55'],
 				'10':['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'],
 				'11':['00', '05', '10', '15', '20', '25', '30'],
+				
 				'13':['05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'],
 				'14':['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'],
 				'15':['00']
 				}
-
-def isTimeOk(time_str, h_str, m_str):
+				
+def time2Sec(time_str):
 	x = time_str.split(':')
 	hour = int(x[0])
 	mint = int(x[1])
+	sec = int(x[2])
+	return hour * 60 * 60 + mint * 60 + sec
+
+def timeSlot2Sec(h_str, m_str):
 	h = int(h_str)
 	m = int(m_str)
-	if m != 0:
-		if hour == h:
-			if mint >= m - 5 and mint <= m:
-				return True
-			else:
-				return False
-		else:
-			return False
+	return h * 60 * 60 + m * 60
+
+def isTimeOk(time_str, h_str, m_str):
+	x = time2Sec(time_str)
+	y_up = timeSlot2Sec(h_str, m_str);
+	y_down = y_up - 300
+	if x >= y_down and x <= y_up:
+		return True
 	else:
-		if hour == h - 1:
-			if mint >= 55 and mint <= 59:
-				return True
-			else:
-				return False
-		else:
-			return False
+		return False
+	
 
 def print_msg(info_string):
 	print "[INFO] " + info_string 
@@ -82,10 +82,10 @@ def tradeItemStore(stock_code, db_connect, db_table_name):
 			site = tradeSiteByCode(stock_code, k, v)
 			zhubi_list = tradeDetailsGet(site)
 			dbItemInsert(zhubi_list, db_connect, db_table_name, k, v)
-	print_msg("load data ok!")
+	print_msg("\nload data ok!")
 	return
 
-stock_code = "600871"
+stock_code = "000751"
 stock_db = 'stockdata.db'
 db_table_name = "tb_" + stock_code
 
